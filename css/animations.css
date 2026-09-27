@@ -1,0 +1,94 @@
+/* =================================================================
+   SRI GAMINI CENTRAL COLLEGE — animation layer
+   Kept separate so the whole motion system can be disabled at once.
+   ================================================================= */
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:none}}
+@keyframes slideInRight{from{opacity:0;transform:translateX(34px)}to{opacity:1;transform:none}}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-34px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.94) translateY(10px)}to{opacity:1;transform:none}}
+@keyframes zoomIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:none}}
+@keyframes shimmer{from{background-position:180% 0}to{background-position:-80% 0}}
+@keyframes pulseLogo{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(212,168,66,.5)}50%{transform:scale(1.05);box-shadow:0 0 0 18px rgba(212,168,66,0)}}
+@keyframes loadSlide{0%{transform:translateX(-120%)}100%{transform:translateX(340%)}}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}
+  55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes ringPulse{0%{box-shadow:0 0 0 0 rgba(212,168,66,.45)}70%{box-shadow:0 0 0 12px rgba(212,168,66,0)}100%{box-shadow:0 0 0 0 rgba(212,168,66,0)}}
+@keyframes kenBurns{0%{transform:scale(1.04) translate(0,0)}100%{transform:scale(1.14) translate(-1.2%,-1.2%)}}
+@keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+/* ---------- scroll reveal ----------
+   Elements carry data-reveal; app.js adds .is-visible via IntersectionObserver. */
+[data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+[data-reveal].is-visible{opacity:1;transform:none}
+[data-reveal="left"]{transform:translateX(-30px)}
+[data-reveal="right"]{transform:translateX(30px)}
+[data-reveal="zoom"]{transform:scale(.93)}
+[data-reveal].is-visible{transform:none}
+[data-reveal][data-delay="1"]{transition-delay:.08s}
+[data-reveal][data-delay="2"]{transition-delay:.16s}
+[data-reveal][data-delay="3"]{transition-delay:.24s}
+[data-reveal][data-delay="4"]{transition-delay:.32s}
+[data-reveal][data-delay="5"]{transition-delay:.40s}
+[data-reveal][data-delay="6"]{transition-delay:.48s}
+
+/* ---------- page transition ---------- */
+body.is-navigating{opacity:.25;transform:translateY(6px);transition:opacity .18s,transform .18s}
+.page-enter{animation:fadeInUp .5s var(--ease) both}
+
+/* ---------- hero entrance ---------- */
+.hero__logo{animation:zoomIn .8s var(--ease) both}
+.hero__tag{animation:fadeInUp .8s .12s var(--ease) both}
+.hero__welcome{animation:fadeInUp .8s .2s var(--ease) both}
+.hero__name{animation:fadeInUp .8s .28s var(--ease) both}
+.hero__lead{animation:fadeInUp .8s .36s var(--ease) both}
+.hero__motto{animation:fadeInUp .8s .44s var(--ease) both}
+.hero__cta{animation:fadeInUp .8s .52s var(--ease) both}
+.hero__bg img{animation:kenBurns 22s var(--ease) alternate infinite}
+
+/* ---------- micro-interactions ---------- */
+.stat__value{transition:transform .3s var(--ease)}
+.stat:hover .stat__value{transform:scale(1.06)}
+.card--hover:hover .card__icon{transform:rotate(-6deg) scale(1.08)}
+.card__icon{transition:transform .35s var(--ease)}
+.quicklink span{transition:transform .3s var(--ease)}
+.quicklink:hover span{transform:scale(1.12) rotate(-5deg)}
+.event:hover .event__date{animation:ringPulse 1.2s var(--ease)}
+.btn{position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--rx,50%) var(--ry,50%),
+  rgba(255,255,255,.35),transparent 55%);opacity:0;transition:opacity .45s;pointer-events:none}
+.btn:active::after{opacity:1;transition:none}
+.g-item::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 35%,rgba(255,255,255,.22) 50%,transparent 65%);
+  transform:translateX(-100%);transition:none}
+.g-item:hover::after{animation:sweep 1s var(--ease)}
+@keyframes sweep{to{transform:translateX(100%)}}
+.notice:hover .notice__day{color:var(--gold-600)}
+.loader-screen__in{animation:fadeIn .5s var(--ease)}
+
+/* ---------- utility animation classes ---------- */
+.anim-fade{animation:fadeIn .4s var(--ease) both}
+.anim-up{animation:fadeInUp .5s var(--ease) both}
+.anim-pop{animation:popIn .35s var(--ease) both}
+.anim-float{animation:floatY 5s ease-in-out infinite}
+.anim-spin{animation:spin 1s linear infinite}
+.stagger>*{animation:fadeInUp .5s var(--ease) both}
+.stagger>*:nth-child(1){animation-delay:.03s}.stagger>*:nth-child(2){animation-delay:.09s}
+.stagger>*:nth-child(3){animation-delay:.15s}.stagger>*:nth-child(4){animation-delay:.21s}
+.stagger>*:nth-child(5){animation-delay:.27s}.stagger>*:nth-child(6){animation-delay:.33s}
+.stagger>*:nth-child(7){animation-delay:.39s}.stagger>*:nth-child(8){animation-delay:.45s}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);display:inline-block;animation:ringPulse 2s infinite}
+
+/* ---------- reduced motion ----------
+   Honour the OS setting: everything becomes an instant state change. */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
+    transition-duration:.001ms!important;scroll-behavior:auto!important}
+  html{scroll-behavior:auto}
+  [data-reveal]{opacity:1!important;transform:none!important}
+  .hero__bg img{animation:none}
+  .sk{animation:none;background:var(--cream-3)}
+}

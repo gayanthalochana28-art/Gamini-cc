@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6E172D">
+
+<title>Sri Gamini Central College | National School</title>
+<meta name="description" content="Official website of Sri Gamini Central College (National School) — school notices, latest updates, academic streams, teachers, events, gallery, downloads and student, teacher and administrator portals.">
+<meta name="keywords" content="Sri Gamini Central College, National School, Wariyapola, school notices, A/L results, student portal, teacher portal">
+<meta name="author" content="Sri Gamini Central College">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.sgcc.sch.lk/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sri Gamini Central College">
+<meta property="og:title" content="Sri Gamini Central College | National School">
+<meta property="og:description" content="Education for Service — a national school offering Grade 1 to Advanced Level, with a full programme of sport, culture and community service.">
+<meta property="og:image" content="assets/school-front.jpg">
+<meta property="og:url" content="https://www.sgcc.sch.lk/">
+<meta property="og:locale" content="en_LK">
+<meta property="og:locale:alternate" content="si_LK">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sri Gamini Central College | National School">
+<meta name="twitter:description" content="Education for Service — official school website.">
+<meta name="twitter:image" content="assets/school-front.jpg">
+
+<link rel="icon" type="image/png" sizes="512x512" href="assets/logo.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
+
+<link rel="preload" as="image" href="assets/school-front.jpg">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/responsive.css">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"School",
+  "name":"Sri Gamini Central College",
+  "alternateName":"SGCC National School",
+  "url":"https://www.sgcc.sch.lk/",
+  "logo":"https://www.sgcc.sch.lk/assets/logo.png",
+  "image":"https://www.sgcc.sch.lk/assets/school-front.jpg",
+  "foundingDate":"1951",
+  "slogan":"Education for Service",
+  "address":{"@type":"PostalAddress","streetAddress":"No. 42, Bandaranaike Mawatha","addressLocality":"Wariyapola","addressRegion":"North Western Province","addressCountry":"LK"},
+  "telephone":"+94 37 228 7140",
+  "email":"office@sgcc.sch.lk"
+}
+</script>
+</head>
+
+<body data-page="home" data-base="" data-chrome="site">
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-labelledby="heroName">
+    <div class="hero__bg">
+      <img src="assets/school-front.jpg" alt="The main entrance and frontage of Sri Gamini Central College">
+    </div>
+    <div class="hero__scrim"></div>
+    <div class="container hero__inner">
+      <img class="hero__logo" src="assets/logo.png" alt="Official crest of Sri Gamini Central College" width="98" height="98">
+      <span class="hero__tag" id="heroTag">National School</span>
+      <p class="hero__welcome" id="heroWelcome" data-i18n="hero.welcome">Welcome to</p>
+      <h1 class="hero__name" id="heroName">Sri Gamini Central College</h1>
+      <p class="hero__lead" id="heroLead">Education, sport and culture in a national school serving its division since 1951.</p>
+      <p class="hero__motto" id="heroMotto"></p>
+      <div class="btn-group hero__cta">
+        <a class="btn btn--gold btn--lg" href="login.html?role=student"><span data-i18n="hero.studentLogin">Student Login</span></a>
+        <a class="btn btn--light btn--lg" href="login.html?role=teacher"><span data-i18n="hero.teacherLogin">Teacher Login</span></a>
+        <a class="btn btn--light" href="pages/notices.html"><span data-i18n="hero.notices">School Notices</span></a>
+        <a class="btn btn--light" href="pages/updates.html"><span data-i18n="hero.updates">Latest Updates</span></a>
+      </div>
+    </div>
+    <div class="hero__scroll" aria-hidden="true"><span data-i18n="hero.scroll">Scroll</span></div>
+  </section>
+
+  <!-- ============ STATISTICS ============ -->
+  <section class="section section--tight" aria-labelledby="statsH">
+    <div class="container">
+      <h2 class="sr-only" id="statsH" data-i18n="home.stats">By the numbers</h2>
+      <div class="grid grid-4 stagger" id="statGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ IMPORTANT NOTICES ============ -->
+  <section class="section" id="notices" aria-labelledby="noticesH">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <span class="eyebrow">Announcements</span>
+          <h2 class="section-title" id="noticesH" data-i18n="home.notices">Latest Notices</h2>
+          <p class="section-sub">Official announcements from the principal's office, examinations department and administration.</p>
+          <p class="muted" id="homeNoticeCount" style="font-size:.8rem;margin:.4rem 0 0"></p>
+        </div>
+        <a class="btn btn--outline" href="pages/notices.html"><span data-i18n="home.viewAll">View all</span> →</a>
+      </div>
+      <div id="homeNotices" class="notice-list"></div>
+    </div>
+  </section>
+
+  <!-- ============ HIGHLIGHTS ============ -->
+  <section class="section section--cream" aria-labelledby="highH">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <span class="eyebrow">Why SGCC</span>
+        <h2 class="section-title" id="highH" data-i18n="home.highlights">School Highlights</h2>
+        <p class="section-sub" style="margin-inline:auto">Seven and a half decades of service to the division, in the classroom and well beyond it.</p>
+      </div>
+      <div class="grid grid-3" id="homeHighlights"></div>
+    </div>
+  </section>
+
+  <!-- ============ PRINCIPAL ============ -->
+  <section class="section" id="principal" aria-labelledby="prinH">
+    <div class="container">
+      <div class="principal" id="homePrincipal"></div>
+    </div>
+  </section>
+
+  <!-- ============ LATEST UPDATES ============ -->
+  <section class="section section--cream" id="updates" aria-labelledby="upH">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <span class="eyebrow">News feed</span>
+          <h2 class="section-title" id="upH" data-i18n="home.updates">Latest Updates</h2>
+          <p class="section-sub">Achievements, results and events from around the college.</p>
+        </div>
+        <a class="btn btn--outline" href="pages/updates.html"><span data-i18n="home.viewAll">View all</span> →</a>
+      </div>
+      <div class="grid grid-3" id="homeUpdates"></div>
+    </div>
+  </section>
+
+  <!-- ============ EVENTS + QUICK LINKS ============ -->
+  <section class="section" id="events" aria-labelledby="evH">
+    <div class="container grid" style="grid-template-columns:1fr">
+      <div class="split-host">
+        <div>
+          <div class="section-head">
+            <span class="eyebrow">Diary</span>
+            <h2 class="section-title" id="evH" data-i18n="home.events">Upcoming Events</h2>
+          </div>
+          <div class="notice-list" id="homeEvents"></div>
+          <a class="btn btn--ghost" style="margin-top:var(--sp-3)" href="pages/events.html">
+            <span data-i18n="home.viewAll">View all</span> →</a>
+        </div>
+        <aside aria-labelledby="qkH">
+          <div class="section-head"><h2 class="section-title" id="qkH" data-i18n="home.quick">Quick Links</h2></div>
+          <div class="quicklinks">
+            <a class="quicklink" href="pages/academics.html"><span aria-hidden="true">🎓</span> Academic Streams</a>
+            <a class="quicklink" href="pages/teachers.html"><span aria-hidden="true">👤</span> Our Teachers</a>
+            <a class="quicklink" href="pages/downloads.html"><span aria-hidden="true">⬇</span> Downloads</a>
+            <a class="quicklink" href="pages/gallery.html"><span aria-hidden="true">🖼</span> Photo Gallery</a>
+            <a class="quicklink" href="pages/achievements.html"><span aria-hidden="true">🏆</span> Achievements</a>
+            <a class="quicklink" href="pages/contact.html"><span aria-hidden="true">☏</span> Contact Us</a>
+            <a class="quicklink" href="login.html?role=student"><span aria-hidden="true">🔐</span> Student Portal</a>
+            <a class="quicklink" href="login.html?role=teacher"><span aria-hidden="true">🗂</span> Teacher Portal</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GALLERY PREVIEW ============ -->
+  <section class="section section--maroon" id="gallery" aria-labelledby="galH">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <span class="eyebrow" style="color:var(--gold-400)">Gallery</span>
+          <h2 class="section-title" id="galH" data-i18n="home.gallery">Photo Gallery</h2>
+          <p class="section-sub">Campus, sport, culture and classroom life.</p>
+        </div>
+        <a class="btn btn--gold" href="pages/gallery.html"><span data-i18n="home.viewAll">View all</span> →</a>
+      </div>
+      <div class="g-grid g-grid--4" id="homeGallery"></div>
+    </div>
+  </section>
+
+  <!-- ============ DOWNLOADS ============ -->
+  <section class="section" id="downloads" aria-labelledby="dlH">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div>
+          <span class="eyebrow">Documents</span>
+          <h2 class="section-title" id="dlH" data-i18n="home.downloads">Important Downloads</h2>
+          <p class="section-sub">Timetables, application forms, circulars and past papers.</p>
+        </div>
+        <a class="btn btn--outline" href="pages/downloads.html"><span data-i18n="home.viewAll">View all</span> →</a>
+      </div>
+      <div class="dl-list" id="homeDownloads"></div>
+    </div>
+  </section>
+
+  <!-- ============ VISIT US ============ -->
+  <section class="section section--cream" aria-labelledby="visitH">
+    <div class="container">
+      <div class="split-host split-host--rev">
+        <div>
+          <span class="eyebrow">Find us</span>
+          <h2 class="section-title" id="visitH">Visit the College</h2>
+          <p class="section-sub" id="visitAddr"></p>
+          <div class="btn-group">
+            <a class="btn btn--primary" href="pages/contact.html">Contact &amp; directions</a>
+            <a class="btn btn--ghost" href="pages/about.html">About the college</a>
+          </div>
+        </div>
+        <iframe class="map-frame" id="visitMap" title="Map showing the location of Sri Gamini Central College"
+                loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="about:blank"></iframe>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/backend.js"></script>
+<script src="js/notices.js"></script>
+<script src="js/updates.js"></script>
+<script src="js/events.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/pages.js"></script>
+<script src="js/home.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

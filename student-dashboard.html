@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6E172D">
+<title>Student portal | Sri Gamini Central College</title>
+<meta name="description" content="Student portal of Sri Gamini Central College — classes, results, attendance, assignments, timetable and notices.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/logo.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="student-dashboard" data-base="" data-chrome="dash" data-loader="off">
+<a class="skip-link" href="#dashMain">Skip to dashboard content</a>
+
+<div class="dash">
+  <!-- ---------------- sidebar ---------------- -->
+  <aside class="side" id="dashSide" aria-label="Student portal navigation">
+    <div class="side__brand">
+      <img src="assets/logo.png" alt="College crest">
+      <span><strong id="sideSchool">SGCC</strong><small>Student portal</small></span>
+      <button class="side__x" data-burger aria-label="Close menu">✕</button>
+    </div>
+    <div class="side__me">
+      <span id="sideAvatar"></span>
+      <div><b id="sideName">Signed in</b><span id="sideMeta">—</span></div>
+    </div>
+    <nav class="side__nav">
+      <p class="side__label">My school day</p>
+      <button class="side__link is-active" data-view="stHome" type="button"><i aria-hidden="true">▦</i>Dashboard</button>
+      <button class="side__link" data-view="stProfile" type="button"><i aria-hidden="true">👤</i>My Profile</button>
+      <button class="side__link" data-view="stClasses" type="button"><i aria-hidden="true">🏫</i>My Classes</button>
+      <button class="side__link" data-view="stResults" type="button"><i aria-hidden="true">📊</i>My Results</button>
+      <button class="side__link" type="button" data-view="stAttendance"><i aria-hidden="true">📅</i>Attendance</button>
+      <button class="side__link" data-view="stAssignments" type="button"><i aria-hidden="true">📝</i>Assignments</button>
+      <button class="side__link" data-view="stExams" type="button"><i aria-hidden="true">🖊</i>Exams</button>
+      <button class="side__link" data-view="stTimetable" type="button"><i aria-hidden="true">🕒</i>Timetable</button>
+      <p class="side__label">The college</p>
+      <button class="side__link" data-view="stNotices" type="button"><i aria-hidden="true">📌</i>School Notices<span class="pill" id="pillNotices"></span></button>
+      <button class="side__link" data-view="stEvents" type="button"><i aria-hidden="true">🗓</i>Events</button>
+      <button class="side__link" data-view="stDownloads" type="button"><i aria-hidden="true">⬇</i>Downloads</button>
+      <button class="side__link" data-view="stMessages" type="button"><i aria-hidden="true">✉</i>Messages<span class="pill" id="pillMessages"></span></button>
+      <p class="side__label">Account</p>
+      <button class="side__link" data-view="stSettings" type="button"><i aria-hidden="true">⚙</i>Settings</button>
+      <a class="side__link" href="index.html"><i aria-hidden="true">↩</i>Back to website</a>
+      <button class="side__link" data-logout type="button"><i aria-hidden="true">⏻</i>Logout</button>
+    </nav>
+    <div class="side__foot">
+      <span class="lang-switch" role="group" aria-label="Language">
+        <button data-lang="en" type="button">EN</button><button data-lang="si" type="button">සිං</button>
+      </span>
+      <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode">☾</button>
+    </div>
+  </aside>
+  <div class="scrim" id="navScrim" data-burger></div>
+
+  <!-- ---------------- main ---------------- -->
+  <div class="main">
+    <header class="topbar">
+      <button class="topbar__burger" data-burger aria-label="Open menu">☰</button>
+      <div class="topbar__title"><span data-view-title>Dashboard</span><small id="topDate"></small></div>
+      <span class="topbar__sp"></span>
+      <a class="topbar__user" href="profile.html" id="topUser" title="Open my profile"></a>
+    </header>
+
+    <main class="content" id="dashMain">
+      <section class="view is-active" data-view="stHome">
+        <div class="view-head"><h2>Dashboard</h2><p id="stHomeSub">Your summary for this term.</p></div>
+        <div id="stWidgets"></div>
+        <div class="split">
+          <div class="panel">
+            <div class="panel__head"><h3>Today&apos;s timetable</h3><button class="btn btn--ghost btn--sm" data-goto="stTimetable" type="button">Full week</button></div>
+            <div class="panel__body" id="stToday"></div>
+          </div>
+          <div class="panel">
+            <div class="panel__head"><h3>Latest notices</h3><button class="btn btn--ghost btn--sm" data-goto="stNotices" type="button">All notices</button></div>
+            <div class="panel__body" id="stHomeNotices"></div>
+          </div>
+          <div class="panel">
+            <div class="panel__head"><h3>Attendance record</h3></div>
+            <div class="panel__body" id="stHomeAtt"></div>
+          </div>
+          <div class="panel">
+            <div class="panel__head"><h3>Subjects this term</h3></div>
+            <div class="panel__body" id="stHomeSubjects"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" data-view="stProfile"><div class="view-head"><h2>My Profile</h2>
+        <p>Details held by the college office. Contact the office if anything here is wrong.</p></div>
+        <div id="stProfileBody"></div></section>
+
+      <section class="view" data-view="stClasses"><div class="view-head"><h2>My Classes</h2>
+        <p>The classes you are registered for and the teachers who take them.</p></div>
+        <div id="stClassesBody"></div></section>
+
+      <section class="view" data-view="stResults"><div class="view-head"><h2>My Results</h2>
+        <p>Examination marks and grades recorded by your subject teachers.</p></div>
+        <div id="stResultsBody"></div></section>
+
+      <section class="view" data-view="stAttendance"><div class="view-head"><h2>Attendance</h2>
+        <p>Daily register entries made by your class teacher.</p></div>
+        <div id="stAttendanceBody"></div></section>
+
+      <section class="view" data-view="stAssignments"><div class="view-head"><h2>Assignments</h2>
+        <p>Work set by your teachers, with due dates and maximum marks.</p></div>
+        <div id="stAssignmentsBody"></div></section>
+
+      <section class="view" data-view="stExams"><div class="view-head"><h2>Examinations</h2>
+        <p>Examination timetables published as notices and the papers you have already sat.</p></div>
+        <div id="stExamsBody"></div></section>
+
+      <section class="view" data-view="stTimetable"><div class="view-head"><h2>Timetable</h2>
+        <p>Your class period timetable for the week.</p></div>
+        <div id="stTimetableBody"></div></section>
+
+      <section class="view" data-view="stNotices"><div class="view-head"><h2>School Notices</h2>
+        <p>Notices published by the college office.</p></div>
+        <div class="notice-list" id="stNoticesBody"></div></section>
+
+      <section class="view" data-view="stEvents"><div class="view-head"><h2>Events</h2>
+        <p>Upcoming college events and the month calendar.</p></div>
+        <div class="notice-list" id="stEventsBody"></div>
+        <div id="stEventsCal" style="margin-top:var(--sp-4)"></div></section>
+
+      <section class="view" data-view="stDownloads"><div class="view-head"><h2>Downloads</h2>
+        <p>Forms, timetables and circulars published by the office.</p></div>
+        <div class="dl-list" id="stDownloadsBody"></div></section>
+
+      <section class="view" data-view="stMessages"><div class="view-head"><h2>Messages</h2>
+        <p>Correspondence with your teachers and the college office.</p></div>
+        <div id="stMessagesBody"></div></section>
+
+      <section class="view" data-view="stSettings"><div class="view-head"><h2>Settings</h2>
+        <p>Preferences and password for this portal.</p></div>
+        <div id="stSettingsBody"></div></section>
+    </main>
+  </div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/backend.js"></script>
+<script src="js/notices.js"></script>
+<script src="js/updates.js"></script>
+<script src="js/events.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/pages.js"></script>
+<script src="js/dash.js"></script>
+<script src="js/student.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

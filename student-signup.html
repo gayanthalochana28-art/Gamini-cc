@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6E172D">
+<title>Student registration | Sri Gamini Central College</title>
+<meta name="description" content="Register for a student portal account at Sri Gamini Central College (National School). New accounts are approved by the college office.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://www.sgcc.sch.lk/student-signup.html">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/logo.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="signup" data-base="" data-chrome="none" data-loader="off">
+<a class="skip-link" href="#signupForm">Skip to the registration form</a>
+
+<div class="auth">
+  <!-- ---------- left panel: school front image ---------- -->
+  <aside class="auth__aside">
+    <img class="auth__bg" src="assets/school-front.jpg" alt="">
+    <div class="auth__aside-in">
+      <a class="auth__brand" href="index.html">
+        <img src="assets/logo.png" alt="Official crest of Sri Gamini Central College" width="56" height="56">
+        <span><strong>Sri Gamini Central College</strong><small>National School</small></span>
+      </a>
+      <div class="auth__pitch">
+        <h2>Create your student account</h2>
+        <p>Register with the Student ID printed on your admission card. For your safety the college office checks every
+          registration and approves it before the account can be signed in to.</p>
+      </div>
+      <ul class="auth__feats">
+        <li><i aria-hidden="true">1</i><span>Register here with your Student ID</span></li>
+        <li><i aria-hidden="true">2</i><span>The office verifies you are on the roll</span></li>
+        <li><i aria-hidden="true">3</i><span>Once approved, sign in to your portal</span></li>
+      </ul>
+      <p class="auth__foot">Personal student information is never shown on a public page of this website.</p>
+    </div>
+  </aside>
+
+  <!-- ---------- right panel: the form ---------- -->
+  <main class="auth__main">
+    <div class="auth-card">
+      <div class="auth-card__head">
+        <img src="assets/logo.png" alt="" width="64" height="64">
+        <h1 id="signupTitle">Student registration</h1>
+        <p>Fill in your details and choose a password. Staff and administration accounts are issued by the office — they
+          are not self-registered.</p>
+      </div>
+
+      <div class="auth-card__body">
+        <p class="auth-error" id="signupError" role="alert"></p>
+
+        <!-- Shown after a successful registration. -->
+        <div id="signupDone" hidden>
+          <div class="demo-box" style="border-style:solid">
+            <h4>Registration received</h4>
+            <p id="signupDoneMsg" style="margin:.2rem 0 0">Thank you. Your account <strong id="doneId"></strong> is now <strong>pending
+              approval</strong>. The college office will confirm it shortly, after which you can sign in with the
+              password you just chose.</p>
+          </div>
+          <p class="auth-back"><a class="link" href="login.html">← Go to the sign-in page</a></p>
+        </div>
+
+        <form id="signupForm" autocomplete="on" novalidate>
+          <div class="field">
+            <label class="label" for="suId">Student ID <span class="req" aria-hidden="true">*</span></label>
+            <input class="input" id="suId" name="suId" inputmode="latin" autocomplete="username"
+                   placeholder="e.g. S001" required aria-describedby="suIdHint">
+            <p class="form-hint" id="suIdHint">Printed on your admission card.</p>
+          </div>
+
+          <div class="field">
+            <label class="label" for="suName">Full name <span class="req" aria-hidden="true">*</span></label>
+            <input class="input" id="suName" name="suName" autocomplete="name" placeholder="As on your admission card" required>
+          </div>
+
+          <div class="field" data-student-only="">
+            <label class="label" for="suClass">Class</label>
+            <select class="input" id="suClass" name="suClass"><option value="">— Select your class —</option></select>
+          </div>
+
+          <div class="field" data-student-only="">
+            <label class="label" for="suAdmission">Admission number</label>
+            <input class="input" id="suAdmission" name="suAdmission" inputmode="latin" placeholder="Optional">
+          </div>
+
+          <div class="field" data-student-only="">
+            <label class="label" for="suGuardian">Parent or guardian</label>
+            <input class="input" id="suGuardian" name="suGuardian" autocomplete="name" placeholder="Guardian's full name">
+          </div>
+
+          <div class="field" data-student-only="">
+            <label class="label" for="suPhone">Telephone</label>
+            <input class="input" id="suPhone" name="suPhone" type="tel" autocomplete="tel" placeholder="e.g. 071 234 5678">
+          </div>
+
+          <div class="field" data-student-only="">
+            <label class="label" for="suEmail">E-mail</label>
+            <input class="input" id="suEmail" name="suEmail" type="email" autocomplete="email" placeholder="Optional">
+          </div>
+
+          <div class="field">
+            <label class="label" for="suPw">Choose a password <span class="req" aria-hidden="true">*</span></label>
+            <div class="pw-wrap">
+              <input class="input" id="suPw" name="suPw" type="password" autocomplete="new-password" required>
+              <button class="pw-toggle" type="button" data-pw-toggle="#suPw,#suPw2" aria-label="Show password" aria-pressed="false">👁</button>
+            </div>
+            <p class="form-hint">At least 6 characters. Never share it with another student.</p>
+          </div>
+
+          <div class="field">
+            <label class="label" for="suPw2">Confirm password <span class="req" aria-hidden="true">*</span></label>
+            <input class="input" id="suPw2" name="suPw2" type="password" autocomplete="new-password" required>
+          </div>
+
+          <button class="btn btn--primary btn--lg btn--block" type="submit" id="signupSubmit">Create my account</button>
+        </form>
+
+        <p class="auth-back">Already registered? <a class="link" href="login.html">Sign in instead</a> ·
+          <a class="link" href="index.html">← Back to the school website</a></p>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/backend.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

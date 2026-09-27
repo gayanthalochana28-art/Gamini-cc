@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6E172D">
+<title>Administration | Sri Gamini Central College</title>
+<meta name="description" content="College administration console.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/logo.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body data-page="admin-dashboard" data-base="" data-chrome="dash" data-loader="off">
+<a class="skip-link" href="#dashMain">Skip to dashboard content</a>
+
+<div class="dash">
+  <!-- ---------------- sidebar ---------------- -->
+  <aside class="side" id="dashSide" aria-label="Administration navigation">
+    <div class="side__brand">
+      <img src="assets/logo.png" alt="College crest">
+      <span><strong id="sideSchool">SGCC</strong><small>Administration</small></span>
+      <button class="side__x" data-burger aria-label="Close menu">✕</button>
+    </div>
+    <div class="side__me">
+      <span id="sideAvatar"></span>
+      <div><b id="sideName">Signed in</b><span id="sideMeta">—</span></div>
+    </div>
+    <nav class="side__nav">
+      <p class="side__label">Overview</p>
+      <button class="side__link is-active" data-view="adHome" type="button"><i aria-hidden="true">▦</i>Dashboard</button>
+      <p class="side__label">People</p>
+      <button class="side__link" data-view="adStudents" type="button"><i aria-hidden="true">🎓</i>Students</button>
+      <button class="side__link" data-view="adTeachers" type="button"><i aria-hidden="true">👤</i>Teachers</button>
+      <p class="side__label">Academic structure</p>
+      <button class="side__link" data-view="adClasses" type="button"><i aria-hidden="true">🏫</i>Classes</button>
+      <button class="side__link" data-view="adSubjects" type="button"><i aria-hidden="true">📚</i>Subjects</button>
+      <p class="side__label">Publishing</p>
+      <button class="side__link" data-view="adNotices" type="button"><i aria-hidden="true">📌</i>Notices</button>
+      <button class="side__link" data-view="adUpdates" type="button"><i aria-hidden="true">📰</i>Updates</button>
+      <button class="side__link" data-view="adEvents" type="button"><i aria-hidden="true">🗓</i>Events</button>
+      <button class="side__link" data-view="adGallery" type="button"><i aria-hidden="true">🖼</i>Gallery</button>
+      <button class="side__link" data-view="adAchievements" type="button"><i aria-hidden="true">🏆</i>Achievements</button>
+      <button class="side__link" data-view="adDownloads" type="button"><i aria-hidden="true">⬇</i>Downloads</button>
+      <button class="side__link" data-view="adMessages" type="button"><i aria-hidden="true">✉</i>Messages<span class="pill" id="pillMessages"></span></button>
+      <p class="side__label">The college</p>
+      <button class="side__link" data-view="adSchool" type="button"><i aria-hidden="true">🏛</i>School Information</button>
+      <button class="side__link" data-view="adPrincipal" type="button"><i aria-hidden="true">✍</i>Principal</button>
+      <p class="side__label">Account</p>
+      <button class="side__link" data-view="adSettings" type="button"><i aria-hidden="true">⚙</i>Settings</button>
+      <a class="side__link" href="index.html"><i aria-hidden="true">↩</i>Back to website</a>
+      <button class="side__link" data-logout type="button"><i aria-hidden="true">⏻</i>Logout</button>
+    </nav>
+    <div class="side__foot">
+      <span class="lang-switch" role="group" aria-label="Language">
+        <button data-lang="en" type="button">EN</button><button data-lang="si" type="button">සිං</button>
+      </span>
+      <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode">☾</button>
+    </div>
+  </aside>
+  <div class="scrim" id="navScrim" data-burger></div>
+
+  <!-- ---------------- main ---------------- -->
+  <div class="main">
+    <header class="topbar">
+      <button class="topbar__burger" data-burger aria-label="Open menu">☰</button>
+      <div class="topbar__title"><span data-view-title>Dashboard</span><small id="topDate"></small></div>
+      <span class="topbar__sp"></span>
+      <a class="topbar__user" href="profile.html" id="topUser" title="Open my profile"></a>
+    </header>
+
+    <main class="content" id="dashMain">
+      <section class="view is-active" data-view="adHome">
+        <div class="view-head"><h2>Dashboard</h2><p id="adHomeSub">Everything the office has published, at a glance.</p></div>
+        <div id="adWidgets"></div>
+        <div class="split" style="margin-top:var(--sp-3)">
+          <div class="panel"><div class="panel__head"><h3>Enrolment by grade</h3></div><div class="panel__body" id="adChartGrades"></div></div>
+          <div class="panel"><div class="panel__head"><h3>Notices by category</h3></div><div class="panel__body" id="adChartCats"></div></div>
+          <div class="panel"><div class="panel__head"><h3>Attendance marked, last ten days</h3></div><div class="panel__body" id="adChartAtt"></div></div>
+          <div class="panel"><div class="panel__head"><h3>Recent activity</h3></div><div class="panel__body" id="adFeed"></div></div>
+        </div>
+        <div class="panel" style="margin-top:var(--sp-3)">
+          <div class="panel__head"><h3>Quick actions</h3></div>
+          <div class="panel__body" id="adQuick"></div>
+        </div>
+      </section>
+
+      <section class="view" data-view="adStudents"><div class="view-head"><h2>Students</h2>
+        <p>Admission records. Every student added here receives a portal sign-in; nothing on this page is public.</p></div>
+        <div id="adStudentsBody"></div></section>
+
+      <section class="view" data-view="adTeachers"><div class="view-head"><h2>Teachers</h2>
+        <p>Staff records. The biography, photograph and subjects are what the public Teachers page shows.</p></div>
+        <div id="adTeachersBody"></div></section>
+
+      <section class="view" data-view="adClasses"><div class="view-head"><h2>Classes</h2>
+        <p>Grade parallel, stream and room allocation.</p></div>
+        <div id="adClassesBody"></div></section>
+
+      <section class="view" data-view="adSubjects"><div class="view-head"><h2>Subjects</h2>
+        <p>The national curriculum subjects offered by the college, with Sinhala names.</p></div>
+        <div id="adSubjectsBody"></div></section>
+
+      <section class="view" data-view="adNotices"><div class="view-head"><h2>Notices</h2>
+        <p>Publish, unpublish and expire notices shown on the home page and the notices page.</p></div>
+        <div id="adNoticesBody"></div></section>
+
+      <section class="view" data-view="adUpdates"><div class="view-head"><h2>Latest updates</h2>
+        <p>News items for the public updates feed.</p></div>
+        <div id="adUpdatesBody"></div></section>
+
+      <section class="view" data-view="adEvents"><div class="view-head"><h2>Events</h2>
+        <p>College diary: upcoming events, past events and the public calendar.</p></div>
+        <div id="adEventsBody"></div></section>
+
+      <section class="view" data-view="adGallery"><div class="view-head"><h2>Gallery</h2>
+        <p>Photographs shown in the public gallery and the home page preview.</p></div>
+        <div id="adGalleryBody"></div></section>
+
+      <section class="view" data-view="adAchievements"><div class="view-head"><h2>Achievements</h2>
+        <p>Awards and results the college is proud of.</p></div>
+        <div id="adAchievementsBody"></div></section>
+
+      <section class="view" data-view="adDownloads"><div class="view-head"><h2>Downloads</h2>
+        <p>Forms, circulars, timetables and past papers published to the downloads page.</p></div>
+        <div id="adDownloadsBody"></div></section>
+
+      <section class="view" data-view="adMessages"><div class="view-head"><h2>Messages</h2>
+        <p>Enquiries from the contact form and correspondence between staff and students.</p></div>
+        <div id="adMessagesBody"></div></section>
+
+      <section class="view" data-view="adSchool"><div class="view-head"><h2>School Information</h2>
+        <p>The identity of the college: names, crest, statistics, contact details and the announcement bar.</p></div>
+        <div id="adSchoolBody"></div></section>
+
+      <section class="view" data-view="adPrincipal"><div class="view-head"><h2>Principal&apos;s Message</h2>
+        <p>The message shown on the home page and the About page.</p></div>
+        <div id="adPrincipalBody"></div></section>
+
+      <section class="view" data-view="adSettings"><div class="view-head"><h2>Settings</h2>
+        <p>Account, appearance and demonstration data.</p></div>
+        <div id="adSettingsBody"></div></section>
+    </main>
+  </div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/backend.js"></script>
+<script src="js/notices.js"></script>
+<script src="js/updates.js"></script>
+<script src="js/events.js"></script>
+<script src="js/gallery.js"></script>
+<script src="js/pages.js"></script>
+<script src="js/dash.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

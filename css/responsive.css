@@ -1,0 +1,147 @@
+/* =================================================================
+   SRI GAMINI CENTRAL COLLEGE — responsive layer
+   Base styles are mobile-first; this file only widens and rearranges.
+   ================================================================= */
+
+/* ---------- 480px: large phones ---------- */
+@media (min-width:480px){
+  .quicklinks{grid-template-columns:repeat(2,1fr)}
+  .widgets{gap:var(--sp-3)}
+  .info-grid{grid-template-columns:repeat(2,1fr)}
+  .hero__logo{width:98px;height:98px}
+}
+
+/* ---------- 640px ---------- */
+@media (min-width:640px){
+  :root{--nav-h:78px}
+  body{font-size:17px}
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .form-grid{grid-template-columns:repeat(2,1fr)}
+  .form-grid .span-2{grid-column:1/-1}
+  .g-grid{grid-template-columns:repeat(3,1fr)}
+  .section{padding-block:var(--sp-7)}
+  .hero{min-height:min(84vh,700px)}
+  .modal__foot{flex-wrap:nowrap}
+  .auth-card{max-width:450px}
+  .contact-item{align-items:center}
+}
+
+/* ---------- 768px: tablet portrait ---------- */
+@media (min-width:768px){
+  .grid-3{grid-template-columns:repeat(2,1fr)}
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .quicklinks{grid-template-columns:repeat(3,1fr)}
+  .footer__grid{grid-template-columns:repeat(2,1fr)}
+  .principal{grid-template-columns:280px 1fr;gap:var(--sp-5)}
+  .hero__inner{max-width:820px}
+  .info-grid{grid-template-columns:repeat(3,1fr)}
+  .cal__cell{min-height:74px;font-size:.82rem}
+  .to-top{bottom:1.4rem}
+}
+
+/* ---------- 992px: tablet landscape / small laptop ---------- */
+@media (min-width:992px){
+  :root{--nav-h:82px}
+  .nav__menu{display:flex}
+  .nav__actions .btn-login{display:inline-flex}
+  .nav__burger{display:none}
+  .nav__inner{gap:var(--sp-2)}
+  .brand__logo{width:52px;height:52px}
+  .brand__name{font-size:1.06rem}
+  .brand__sub{font-size:.66rem}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-4{grid-template-columns:repeat(3,1fr)}
+  .quicklinks{grid-template-columns:repeat(4,1fr)}
+  .footer__grid{grid-template-columns:1.5fr 1fr 1fr 1.2fr}
+  .section{padding-block:var(--sp-8)}
+  .hero__inner{padding-block:var(--sp-8)}
+  .search-overlay{padding:var(--sp-5)}
+  .search-box{margin-top:9vh}
+  .toast-host{bottom:1.5rem;right:1.5rem}
+}
+
+/* ---------- 1200px: desktop ---------- */
+@media (min-width:1200px){
+  .grid-4{grid-template-columns:repeat(4,1fr)}
+  .hero__name{font-size:3.5rem}
+  .hero__lead{font-size:1.2rem}
+  .g-grid--4{grid-template-columns:repeat(4,1fr)}
+  .cal__cell{min-height:96px}
+}
+
+/* ---------- 1280px: full inline menu, "More" dropdown retires ---------- */
+@media (min-width:1280px){
+  .nav__opt{display:block}
+  .nav__more-wrap{display:none}
+}
+
+/* ---------- 1440px: wide desktop ---------- */
+@media (min-width:1440px){
+  :root{--maxw:1320px}
+  body{font-size:17.5px}
+}
+
+/* ---------- short / landscape phones ---------- */
+@media (max-height:620px) and (orientation:landscape){
+  .hero{min-height:auto;padding-block:var(--sp-5)}
+  .hero__scroll{display:none}
+  .loader-screen img{width:56px;height:56px}
+}
+
+/* ---------- small-height mobile nav safety ---------- */
+@media (max-width:991px){
+  .nav__actions .btn--lg{display:none}
+  .mobile-nav{padding-top:var(--sp-3)}
+}
+
+/* ---------- very narrow devices (<=360px) ---------- */
+@media (max-width:360px){
+  body{font-size:16px}
+  :root{--sp-3:.8rem;--sp-4:1.15rem;--sp-5:1.7rem;--sp-6:2.4rem;--sp-7:3.2rem;--sp-8:4.2rem}
+  .brand__name{font-size:.82rem;white-space:normal}
+  .brand__sub{font-size:.55rem;letter-spacing:.12em}
+  .btn{padding:.62rem 1rem;font-size:.88rem}
+  .hero__cta .btn{width:100%}
+  .g-grid{grid-template-columns:repeat(2,1fr)}
+  .widgets{grid-template-columns:1fr}
+  .cal__cell{min-height:44px;font-size:.7rem}
+  .modal__foot .btn{flex:1 1 100%}
+}
+
+/* ---------- touch: remove hover-only affordances ---------- */
+@media (hover:none){
+  .g-item figcaption,.g-item__cap{opacity:1;transform:none}
+  .card--hover:hover,.stat:hover,.update:hover,.event:hover,.teacher:hover{transform:none}
+  .notice:hover{transform:none}
+  .btn:hover{transform:none}
+}
+
+/* ---------- coarse pointers: bigger tap targets ---------- */
+@media (pointer:coarse){
+  .nav__link{padding:.65rem .7rem}
+  .side__link{padding:.8rem .8rem}
+  .icon-btn,.nav__burger{width:44px;height:44px}
+  .row-actions .btn--icon{width:38px;height:38px}
+  .chip{padding:.55rem 1rem}
+}
+
+/* ---------- high-contrast / forced colors ---------- */
+@media (prefers-contrast:more){
+  :root{--border:#000;--sh-sm:none;--sh-md:none;--sh-lg:none}
+  .card,.table-wrap,.panel,.widget{border-width:2px}
+  .nav__link.is-active::after{height:3px}
+}
+@media (forced-colors:active){
+  .btn,.card,.chip,.badge{border:1px solid CanvasText}
+  .nav__link.is-active::after{background:Highlight}
+}
+
+/* ---------- print ---------- */
+@media print{
+  :root{--bg:#fff;--surface:#fff;--text:#000}
+  body{font-size:11pt}
+  .section{padding-block:12pt}
+  .card,.notice,.event,.dl{break-inside:avoid;page-break-inside:avoid}
+  .hero__bg,.page-hero::after{display:none}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:8pt;color:#555}
+}

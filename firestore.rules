@@ -1,0 +1,296 @@
+rules_version = '2';
+
+/* =================================================================
+   SRI GAMINI CENTRAL COLLEGE — Cloud Firestore security rules
+   -------------------------------------------------------------------
+   This file is the access-control layer. The role checks inside the
+   website are there for a pleasant interface; they are NOT security.
+   Deploy this file (Firebase Console → Firestore → Rules, or
+   `firebase deploy --only firestore:rules`) before inviting anyone.
+
+   How a rule knows who you are
+   ----------------------------
+   Every account this site creates is signed in as
+   <StaffID or StudentID>@sgcc.sch.lk, so the caller's own
+   schoolUsers row is addressable as U-<that id> without ever listing
+   the table. Firestore can read that row from inside a rule with get(),
+   which is what makes role checks possible without a backend.
+   Keep SGC_FIREBASE.emailDomain and the domain below identical.
+   ================================================================= */
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------------------------------------------------------- helpers
+    // The e-mail domain is checked, not assumed: an account on some other
+    // domain must not be mistaken for a member of this college. Keep this
+    // value identical to emailDomain in js/firebase-config.js.
+    function ourDomain() {
+      return 'sgcc.sch.lk';
+    }
+
+    function signedIn() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && request.auth.token.email.split('@')[1] == ourDomain();
+    }
+
+    // "T001" from "t001@sgcc.sch.lk" — the ID the college uses.
+    function emailId() {
+      return signedIn() && request.auth.token.email != null
+        ? request.auth.token.email.split('@')[0]
+        : '';
+    }
+
+    function mePath() {
+      return /databases/$(database)/documents/schoolUsers/U-$(emailId().lower());
+    }
+
+    // The caller's own account row, or {} when it does not exist.
+    function me() {
+      return exists(mePath()) ? get(mePath()).data : {};
+    }
+
+    function isActive() {
+      return signedIn() && 'status' in me() && me().status == 'Active';
+    }
+
+    function role() {
+      return 'role' in me() ? me().role : '';
+    }
+
+    function isAdmin()   { return isActive() && role() == 'admin'; }
+    function isTeacher() { return isActive() && role() == 'teacher'; }
+    function isStudent() { return isActive() && role() == 'student'; }
+
+    // The person's own ID as stored on their account row.
+    function myId() {
+      return 'identifier' in me() ? me().identifier : emailId();
+    }
+
+    // --------------------------------------------------- ONE-TIME BOOTSTRAP
+    // An empty database has no administrator, so nobody would be able to
+    // create one. Put the principal's Staff ID in the quotes below AND in
+    // js/firebase-config.js (bootstrapAdminId), register that single account
+    // through student-signup.html?role=staff, sign in, then DELETE these
+    // three lines and redeploy. There is no other way to mint an admin.
+    // The comparison is case-insensitive, but the row itself is written at the
+    // lower-cased id ('U-' + the ID in lower case), which is also how the
+    // schoolUsers rules below address an account. Give the principal an ID that
+    // belongs to nobody else, and clear both values when the console opens.
+    function bootstrapId() { return 'CHANGE_ME'; }
+    function isBootstrap() {
+      return signedIn() && emailId().lower() == bootstrapId().lower();
+    }
+
+    // A record only becomes visible once it is flagged published.
+    // Documents without the field (classes, subjects…) are always visible.
+    function isPublished() {
+      return !('published' in resource.data) || resource.data.published == true;
+    }
+
+    // ------------------------------------------------------- website content
+    // Readable by the public: the pages themselves. Writable by an
+    // administrator only — that is the "admin controls the website" part.
+    match /schoolSettings/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /schoolClasses/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /schoolSubjects/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Notices, updates and events keep their drafts hidden from everyone
+    // except college staff. The site asks for `published == true` unless it is
+    // signed in as a teacher or administrator, so a filtered query is exactly
+    // what the rule below permits — an unfiltered read by a visitor would be
+    // refused, because the drafts it would return are not readable.
+    match /schoolNotices/{doc} {
+      allow read: if isAdmin() || isTeacher() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /schoolUpdates/{doc} {
+      allow read: if isAdmin() || isTeacher() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /schoolEvents/{doc} {
+      allow read: if isAdmin() || isTeacher() || isPublished();
+      allow write: if isAdmin();
+    }
+
+    match /schoolGallery/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /schoolAchievements/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /schoolDownloads/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ------------------------------------------------------------- people
+    // The roster is personal data. Never public.
+    match /schoolStudents/{id} {
+      // An administrator manages the whole roster; a teacher reads the
+      // students they teach; a student reads only their own row.
+      allow read: if isAdmin()
+        || isTeacher()
+        || (isStudent() && resource.data.studentId == myId());
+
+      // A self-registered student may create exactly one row: their own, and
+      // it must start out Pending so nobody can grant themselves a place.
+      allow create: if isAdmin()
+        || (signedIn() && !isBootstrap()
+            && id == 'S-' + emailId().lower()
+            && request.resource.data.status == 'Pending'
+            && request.resource.data.studentId.lower() == emailId().lower());
+
+      // A student may correct their own contact details but never their own
+      // admission status, class or roll number.
+      allow update: if isAdmin()
+        || (isStudent()
+            && resource.data.studentId == myId()
+            && request.resource.data.studentId == resource.data.studentId
+            && request.resource.data.status == resource.data.status
+            && request.resource.data.classId == resource.data.classId);
+
+      allow delete: if isAdmin();
+    }
+
+    // Staff are shown on the public Teachers page, so their rows are readable
+    // by visitors. Firestore cannot hide individual fields inside a readable
+    // document — everything stored here is visible to anyone who inspects the
+    // site's traffic. Keep the college e-mail, department, position and
+    // biography in this table, and keep private telephone numbers and home
+    // addresses in the office filing cabinet instead.
+    match /schoolTeachers/{id} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      // A teacher edits their own card — never their staff number.
+      allow update: if isAdmin()
+        || (isTeacher() && resource.data.teacherId == myId()
+            && request.resource.data.teacherId == resource.data.teacherId);
+    }
+
+    // ------------------------------------------------------------- accounts
+    match /schoolUsers/{id} {
+      // Your own row, plus the whole table for an administrator.
+      allow read: if isAdmin()
+        || (signedIn() && (id == 'U-' + emailId().lower() || resource.data.uid == request.auth.uid));
+
+      // Registering yourself: a student or teacher may create their own row
+      // and it must be Pending. The single bootstrap ID may be Active.
+      allow create: if isAdmin()
+        || (signedIn() && id == 'U-' + emailId().lower()
+            && request.resource.data.uid == request.auth.uid
+            && (request.resource.data.role == 'student' || request.resource.data.role == 'teacher')
+            && request.resource.data.status == 'Pending')
+        || (signedIn() && isBootstrap() && id == 'U-' + emailId().lower()
+            && request.resource.data.uid == request.auth.uid
+            && request.resource.data.role == 'admin');
+
+      // You may attach your own uid to a row the office created for you, and
+      // update your own password hash fields — but never your role, your
+      // approval status, or anyone else's row.
+      allow update: if isAdmin()
+        || (signedIn() && id == 'U-' + emailId().lower()
+            && request.resource.data.uid == request.auth.uid
+            && request.resource.data.role == resource.data.role
+            && request.resource.data.status == resource.data.status);
+
+      allow delete: if isAdmin();
+    }
+
+    // ------------------------------------------------------ academic records
+    match /schoolAttendance/{id} {
+      allow read: if isAdmin() || isTeacher() || (isStudent() && resource.data.studentId == myId());
+      // Only a teacher or an administrator marks the register.
+      allow write: if isAdmin() || isTeacher();
+      allow delete: if isAdmin();
+    }
+
+    match /schoolResults/{id} {
+      allow read: if isAdmin() || isTeacher() || (isStudent() && resource.data.studentId == myId());
+      allow write: if isAdmin() || isTeacher();
+      allow delete: if isAdmin();
+    }
+
+    match /schoolAssignments/{id} {
+      allow read: if isAdmin() || isTeacher() || isStudent();
+      allow write: if isAdmin() || isTeacher();
+      allow delete: if isAdmin();
+    }
+
+    match /schoolTimetable/{id} {
+      allow read: if isAdmin() || isTeacher() || isStudent();
+      allow write: if isAdmin() || isTeacher();
+      allow delete: if isAdmin();
+    }
+
+    match /schoolSubmissions/{id} {
+      allow read: if isAdmin() || isTeacher() || (isStudent() && resource.data.studentId == myId());
+      // A student files work against their own ID; a teacher grades it.
+      allow create: if isAdmin() || isTeacher()
+        || (isStudent() && request.resource.data.studentId == myId());
+      allow update: if isAdmin() || isTeacher()
+        || (isStudent() && resource.data.studentId == myId());
+      allow delete: if isAdmin();
+    }
+
+    // -------------------------------------------------------------- messages
+    match /schoolMessages/{id} {
+      // Only the sender, the recipient, "all", or an administrator.
+      allow read: if isAdmin()
+        || (signedIn() && (resource.data.from == myId()
+                           || resource.data.to == myId()
+                           || resource.data.to == 'all'));
+      allow create: if isAdmin()
+        || (signedIn() && request.resource.data.from == myId())
+        // The Contact page is answered by the office, but it is filled in by
+        // visitors who hold no account, so an anonymous enquiry has to be
+        // writable. It is only an enquiry: addressed to the office, unread,
+        // and bounded in length. Anyone on the internet can then POST into
+        // this collection, so switch on Firebase App Check (console → App
+        // Check → register the web app) before publishing the form, and keep
+        // the college's telephone number as the fallback.
+        || (!signedIn()
+            && request.resource.data.category == 'Public enquiry'
+            && request.resource.data.to == 'admin'
+            && request.resource.data.read == false
+            && request.resource.data.name is string
+            && request.resource.data.name.size() >= 2
+            && request.resource.data.name.size() <= 120
+            && request.resource.data.body is string
+            && request.resource.data.body.size() >= 5
+            && request.resource.data.body.size() <= 4000);
+      // Marking your own inbox as read is the only edit a user makes.
+      allow update: if isAdmin()
+        || (signedIn() && (resource.data.from == myId() || resource.data.to == myId()));
+      allow delete: if isAdmin();
+    }
+
+    // Interface preferences stay in the browser; nothing is stored here.
+    match /schoolUserPrefs/{id} {
+      allow read, write: if false;
+    }
+
+    // Nothing else is declared above, and Firestore denies anything that no
+    // rule allows: a table added later is closed to every visitor until a
+    // rule for it is written here. That default is the reason this file lists
+    // every collection the website uses by name.
+  }
+}

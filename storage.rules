@@ -1,0 +1,62 @@
+rules_version = '2';
+
+/* =================================================================
+   SRI GAMINI CENTRAL COLLEGE — Cloud Storage security rules
+   -------------------------------------------------------------------
+   Photographs and PDF attachments live here once a Firebase project is
+   connected: js/backend.js uploads a chosen file and stores only the
+   returned address on the record, because a picture kept inside a
+   Firestore document spends most of its 1 MiB allowance.
+
+   Deploy with:  firebase deploy --only storage
+   (or Firebase console → Storage → Rules, paste this file.)
+
+   Everything under /sgc is readable by anyone, because the website shows
+   notice photographs, staff portraits and gallery images to visitors who
+   are not signed in. Only college staff may put a file there, and the
+   role is read from the caller's own schoolUsers row — the same source of
+   truth firestore.rules uses. Keep the domain and the document path
+   identical in both files.
+   ================================================================= */
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // The caller's own sign-in row, or {} when there is not one.
+    function me() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && request.auth.token.email.split('@')[1] == 'sgcc.sch.lk'
+        && firestore.exists(/databases/(default)/documents/schoolUsers/U-$(request.auth.token.email.split('@')[0].lower()))
+        ? firestore.get(/databases/(default)/documents/schoolUsers/U-$(request.auth.token.email.split('@')[0].lower())).data
+        : {};
+    }
+
+    function isStaff() {
+      return 'role' in me() && me().role in ['admin', 'teacher']
+        && 'status' in me() && me().status == 'Active';
+    }
+
+    // A photograph is a picture, a scan or a document — never a script, and
+    // js/backend.js caps the size before it gets this far.
+    function looksLikeAFile() {
+      return request.resource.size > 0
+        && request.resource.size < 8 * 1024 * 1024
+        && (request.resource.contentType.matches('image/.*')
+            || request.resource.contentType.matches('application/pdf')
+            || request.resource.contentType.matches('video/.*'));
+    }
+
+    match /sgc/{table}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isStaff() && looksLikeAFile();
+    }
+
+    // Anything outside the college's own folder is closed, including the
+    // bucket's root. Files uploaded by hand in the console therefore stay
+    // invisible to the site until they are moved under /sgc.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
